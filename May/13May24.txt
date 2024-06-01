@@ -1,0 +1,59 @@
+Question :
+
+861. Score After Flipping Matrix
+
+You are given an m x n binary matrix grid.
+
+A move consists of choosing any row or column and toggling each value in that row or column (i.e., changing all 0's to 1's, and all 1's to 0's).
+
+Every row of the matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.
+
+Return the highest possible score after making any number of moves (including zero moves).
+
+ 
+Example 1:
+
+Input: grid = [[0,0,1,1],[1,0,1,0],[1,1,0,0]]
+Output: 39
+Explanation: 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39
+Example 2:
+
+Input: grid = [[0]]
+Output: 1
+ 
+Constraints:
+
+m == grid.length
+n == grid[i].length
+1 <= m, n <= 20
+grid[i][j] is either 0 or 1.
+
+
+
+Solution :
+
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        int score = 0;
+        // Iterate through each column
+        for (int j = 0; j < n; ++j) {
+            int countOnes = 0;
+            // Count the number of 1s in the current column
+            for (int i = 0; i < m; ++i) {
+                countOnes += grid[i][j] ^ grid[i][0]; // flip if necessary
+            }
+            // If the number of 1s is less than or equal to half of the total rows, flip the column
+            if (countOnes <= m / 2) {
+                countOnes = m - countOnes;
+            }
+            // Add the score contributed by the current column to the total score
+            score += countOnes * (1 << (n - 1 - j));
+        }
+        
+        return score;
+    }
+};

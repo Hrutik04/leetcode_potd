@@ -1,0 +1,73 @@
+Question :
+
+Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
+
+For example, if word = "abcdefd" and ch = "d", then you should reverse the segment that starts at 0 and ends at 3 (inclusive). The resulting string will be "dcbaefd".
+Return the resulting string.
+
+ 
+Example 1:
+
+Input: word = "abcdefd", ch = "d"
+Output: "dcbaefd"
+Explanation: The first occurrence of "d" is at index 3. 
+Reverse the part of word from 0 to 3 (inclusive), the resulting string is "dcbaefd".
+Example 2:
+
+Input: word = "xyxzxe", ch = "z"
+Output: "zxyxxe"
+Explanation: The first and only occurrence of "z" is at index 3.
+Reverse the part of word from 0 to 3 (inclusive), the resulting string is "zxyxxe".
+Example 3:
+
+Input: word = "abcd", ch = "z"
+Output: "abcd"
+Explanation: "z" does not exist in word.
+You should not do any reverse operation, the resulting string is "abcd".
+ 
+Constraints:
+
+1 <= word.length <= 250
+word consists of lowercase English letters.
+ch is a lowercase English letter.
+
+
+Solution :
+
+class Solution {
+public:
+    string reversePrefix(string word, char ch) {
+        int index = word.find(ch); // Find the index of the first occurrence of ch in word
+        if (index != string::npos) { // If ch exists in word
+            reverse(word.begin(), word.begin() + index + 1); // Reverse the segment from 0 to index (inclusive)
+        }
+        return word; // Return the resulting string
+    }
+};
+
+or
+
+class Solution {
+public:
+    string reversePrefix(string word, char ch) {
+        int index = -1; // Initialize index to -1 to indicate that ch is not found
+        // Iterate through the characters of word
+        for (int i = 0; i < word.length(); ++i) {
+            if (word[i] == ch) { // If character at index i is equal to ch
+                index = i; // Set index to the index of ch
+                break; // Break the loop since we found the first occurrence of ch
+            }
+        }
+    
+    if (index != -1) {
+            // Reverse the segment from 0 to index (inclusive)
+            for (int i = 0, j = index; i < j; ++i, --j) {
+                char temp = word[i]; // Swap characters at indices i and j
+                word[i] = word[j];
+                word[j] = temp;
+            }
+        }
+
+        return word; // Return the resulting string
+    }
+};
